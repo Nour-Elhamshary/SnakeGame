@@ -1,0 +1,17 @@
+# libraries
+/library
+/include/ray*.h
+
+# Folders
+/.vscode
+/.VSCodeCounter
+/build
+
+# Files
+hiscore.data
+Makefile
+
+# Additional file types to be ignored
+*.code-workspace
+*.cpp.bak
+*.exe
