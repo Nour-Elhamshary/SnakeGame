@@ -5,10 +5,6 @@ Snake class
 //Included libraries
 #pragma once
 #include "common.h"
-#include <deque>
-#include <iostream>
-
-
 
 //playerMoveState: enum specifying all possible directions of snake
 enum playerMoveState {up, down, left, right};

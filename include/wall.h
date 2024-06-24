@@ -8,7 +8,7 @@ class Wall {
     Texture2D texture;
     public:
     void updateWall(){
-        DrawTextureRec(texture, body, {pos.x, pos.y}, WHITE);
+        DrawTextureRec(texture, body, pos, WHITE);
     }
 
     void changePos(int x, int y){

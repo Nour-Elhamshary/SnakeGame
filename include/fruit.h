@@ -5,21 +5,23 @@ Fruit
 //Included libraries
 #pragma once
 #include "common.h"
-#include <iostream>
-
-#include <deque>
 
 class Fruit{
     protected:
-    Rectangle body = {cellSize*8, cellSize*8, 16, 16};
+    Rectangle body = {cellSize*0, cellSize*0, 16, 16};
+    Texture2D texture;
     public:
     void drawFruit(){
-        DrawRectangleRec(body, WHITE);
+        DrawTexture(texture, body.x, body.y, WHITE);
+        //DrawRectangleRec(body, WHITE);
     }
     Rectangle getRec(){
         return body;
     }
 
+    void setTexture(){
+        texture = LoadTexture("res/fruit.png");
+    }
     void changePos(std::deque<Rectangle> snekbody){
         body.x = (playableCellPos.x + (rand() % playableCellCount)) * cellSize;
         body.y = (playableCellPos.y + (rand() % playableCellCount)) * cellSize;

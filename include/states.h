@@ -4,20 +4,22 @@
 #ifndef STATES_H
 #define STATES_H
 
-#include "common.h"
 
-#include "snake.h"
-#include "wall.h"
-#include "fruit.h"
-
-
-
-#define STORAGE_DATA_FILE   "hiscore.data"   // Storage file
 
 // NOTE: Storage positions must start with 0, directly related to file memory layout
-typedef enum {
-    STORAGE_POSITION_HISCORE      = 0
-} StorageData;
+
+
+//Game states: An enumerator that starts from 0 and tells the state of the game.
+enum GameStates {
+    unknown = -1, //Unknown state, good idea to have when needed.
+    logostate = 0, //Logo state, for logo stuff.
+    titlestate, //Title state, used when the game is in the title screen
+    gamestate, //Game state, basically when the game is currently playing
+    pausestate, //Pause state, just, erm, pause?
+    overstate //Over state, game over.
+};
+
+inline GameStates currentGameState = logostate; //Current state of the game.
 
 //Transition variables (for fade in and fade out)
 static float alpha = 0.0f;

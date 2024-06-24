@@ -1,9 +1,5 @@
+#include "include/common.h"
 #include "include/states.h"
-
-
-
-
-#include <iostream>
 
 
 void ChangeToState(GameStates state) {
