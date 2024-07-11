@@ -74,7 +74,7 @@ int main(void)
     SetTargetFPS(FPS);
     InitAudioDevice();
 
-    Music mainmusic = LoadMusicStream("res//mus//_sunlight_.xm");
+    Music mainmusic = LoadMusicStream("res//mus//snektitle.xm");
     Texture2D bg = LoadTexture("res/purplenebula.png");
 
     mainmusic.looping = true;

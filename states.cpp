@@ -263,14 +263,21 @@ bool FinishGameState(){
 //Local variables
 Texture2D logo;
 bool FinishLogo = false;
-float scale = 0.0f;
+float scale = 0.25f;
 
+float colorAlpha = 1.0f;
+float textureAlpha = 0.0f;
 float timerAnimation = 0.0f;
 
 //Easing functions (courtesy of Andrey Sitnik and Ivan Solovev)
-
+/*  How do these easing functions work?
+    Think of it as a slider that goes between 0 and 1, where as the timer progresses
+    it reaches to the maximum state, and if it tries to go beyond its limits it'll always stop
+    at that point.
+*/
 float easeOutQuad(float timer) {
     if (timer >= 1.01f) return 1.0f;
+    else if (timer <= -0.01f) return 0.0f;
     return 1.0f - (1.0f - timer) * (1.0f - timer);
 }
 
@@ -286,9 +293,13 @@ void InitLogoState(){
 }
 
 void UpdateLogoState(){
-    if (timerAnimation <= 2.01f) scale = 0.5f * easeOutQuad(timerAnimation*0.5f);
-    else if (timerAnimation >= 5.99f && timerAnimation <=7.01f) scale = 0.5f * easeInQuad(7.01f - (timerAnimation));
-    else if (timerAnimation > 7.01f) FinishLogo = true;
+    // if (timerAnimation <= 2.01f) scale = 0.5f * easeOutQuad(timerAnimation*0.5f);
+    // else if (timerAnimation >= 5.99f && timerAnimation <=7.01f) scale = 0.5f * easeInQuad(7.01f - (timerAnimation));
+    // else if (timerAnimation > 7.01f) FinishLogo = true;
+
+    if (timerAnimation <= 0.51f) colorAlpha = 1.0f - (timerAnimation * 2);
+    else if (timerAnimation >= 0.51f && timerAnimation <= 1.01f) textureAlpha = ((timerAnimation - 0.51f) * 2);
+    else if (timerAnimation >= 7.01f) FinishLogo = true;
     timerAnimation += GetFrameTime();
 
     std::cout << "timerAnimation: " << timerAnimation << std::endl;
@@ -297,7 +308,8 @@ void UpdateLogoState(){
 void DrawLogoState(){
     Vector2 positionToCenter = {(GetScreenWidth()/2)-(((float)logo.width/2)*scale), (GetScreenHeight()/2)-(((float)logo.height/2)*scale)};
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
-    DrawTextureEx(logo, positionToCenter, 0.0f, scale, WHITE);
+    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(WHITE, colorAlpha));
+    DrawTextureEx(logo, positionToCenter, 0.0f, scale, Fade(WHITE, textureAlpha));
 }
 
 void UnloadLogoState(){
