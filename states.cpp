@@ -262,11 +262,16 @@ bool FinishGameState(){
 
 //Local variables
 Texture2D logo;
+Texture2D raylibLogo;
+
 bool FinishLogo = false;
-float scale = 0.25f;
+float scale = 0.5f;
+
+float scaleRaylib = 1.0f;
 
 float colorAlpha = 1.0f;
 float textureAlpha = 0.0f;
+float textureRaylibAlpha = 0.0f;
 float timerAnimation = 0.0f;
 
 //Easing functions (courtesy of Andrey Sitnik and Ivan Solovev)
@@ -289,6 +294,7 @@ float easeInQuad(float timer) {
 
 void InitLogoState(){
     logo = LoadTexture("res/wavelighty.png");
+    raylibLogo = LoadTexture("res/raylib_512x512.png");
     FinishLogo = false;
 }
 
@@ -298,7 +304,9 @@ void UpdateLogoState(){
     // else if (timerAnimation > 7.01f) FinishLogo = true;
 
     if (timerAnimation <= 0.51f) colorAlpha = 1.0f - (timerAnimation * 2);
-    else if (timerAnimation >= 0.51f && timerAnimation <= 1.01f) textureAlpha = ((timerAnimation - 0.51f) * 2);
+    else if (timerAnimation > 0.51f && timerAnimation <= 1.01f) textureAlpha = ((timerAnimation - 0.51f) * 2);
+    else if (timerAnimation > 3.01f && timerAnimation <= 3.51f) textureAlpha = ((3.5f - timerAnimation) * 2);
+    else if (timerAnimation > 3.51f && timerAnimation <= 4.01f) textureRaylibAlpha = ((timerAnimation - 3.51f) * 2);
     else if (timerAnimation >= 7.01f) FinishLogo = true;
     timerAnimation += GetFrameTime();
 
@@ -307,9 +315,15 @@ void UpdateLogoState(){
 
 void DrawLogoState(){
     Vector2 positionToCenter = {(GetScreenWidth()/2)-(((float)logo.width/2)*scale), (GetScreenHeight()/2)-(((float)logo.height/2)*scale)};
+    Vector2 positionToCenterRL = {(GetScreenWidth()/2)-(((float)raylibLogo.width/2)*scale), (GetScreenHeight()/2)-(((float)raylibLogo.height/2)*scale)};
+    Vector2 positionText = MeasureTextEx(GetFontDefault(), "This game is made possible by:", 30, 30/10);
+    Vector2 positionToCenterText = {(GetScreenWidth()/2)-(((float)positionText.x/2)), (GetScreenHeight()/2)-(((float)positionText.y/2))};
+
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(WHITE, colorAlpha));
     DrawTextureEx(logo, positionToCenter, 0.0f, scale, Fade(WHITE, textureAlpha));
+    DrawTextureEx(raylibLogo, positionToCenterRL, 0.0f, scale, Fade(WHITE, textureRaylibAlpha));
+    DrawText("This game is made possible by:", positionToCenterText.x, positionToCenterText.y - (raylibLogo.width/3), 30, Fade(WHITE, textureRaylibAlpha));
 }
 
 void UnloadLogoState(){
